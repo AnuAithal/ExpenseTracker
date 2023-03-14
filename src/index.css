@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.navbar{
+  margin: auto;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(53, 139, 238));
+    padding: 10px 20px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link{
+  color: rgba(101, 95, 95, 0.971);
+}
+
+.nav{
+  background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(10, 9, 9, 0.341));
+}
+
+/* .dropdown-center > btn {
+  background-image: white;
+} */
