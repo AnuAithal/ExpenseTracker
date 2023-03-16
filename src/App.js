@@ -3,7 +3,8 @@ import Home from "./components/Home";
 import Categories from "./components/Categories";
 
 import {BrowserRouter , Route, Routes} from 'react-router-dom';
-import AddExpense from "./components/AddExpense";
+
+import UpdateExpense from "./components/UpdateExpense";
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' exact={true} element={<Home/>} ></Route>
-          {/* <Route path='/categories' exact={true} component={Categories} ></Route> */}
-          <Route path='/addExpense' exact={true} element={<AddExpense/>} ></Route>
+          {/* <Route path='/categories' exact={true} component={Categories} ></Route>
+          <Route path='/addExpense' exact={true} element={<AddExpense/>} ></Route> */}
+          <Route path='/updateExpense' exact={true} element={<UpdateExpense/>} ></Route>
         </Routes>
       </BrowserRouter>
 

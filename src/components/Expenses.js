@@ -1,10 +1,24 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import UpdateExpense from './UpdateExpense';
 
 const Expenses = () => {
     const [loading, setLoading] = useState(true);
     const [expenses, setExpenses] = useState([]);
+    const [seeExpense, setSeeExpense] = useState({
+        title:"helllo ",
+        category:"",
+        amount:"",
+        date:""
+    })
 
+    // const [title, setTitle] = useState("");
+    // const [category, setCategory] = useState("");
+    // const [amount, setAmount] = useState("");
+    // const [date, setDate] = useState("");
+
+    //GET EXPENSES
     const fetchAPI = async() => {
         setLoading(true);
         
@@ -18,6 +32,59 @@ const Expenses = () => {
         fetchAPI();
     }, [])
 
+
+    //DELETE EXPENSE
+    function removeExpense(id){
+        fetch(`http://localhost:8080/api/expenses/${id}`,{
+            method:"DELETE",
+            //mode: "cors"
+            headers : {
+                'Content-Type': 'application/json'
+            }
+        }).then((result)=>{
+            result.json().then((resp)=>{
+                console.warn(resp)
+                fetchAPI()
+            })
+        })
+    }
+
+    // useEffect( ()=> {
+    //     removeExpense();
+    // }, [])
+
+    // const removeExpense = async(id) => {
+        
+    //     const responseDel = await axios.delete(`http://localhost:8080/api/expenses/${id}`);
+    //     setExpenses(responseDel.data);
+    //     fetchAPI();
+
+    // }
+
+    function selectExpense(id){
+        let item=expenses[id-1];
+        
+        //console.log(item);
+        // setTitle(item.description);
+        // setCategory(item.category.name);
+        // setAmount(item.amount);
+        // setDate(item.expenseDate);
+
+        
+        setSeeExpense(prevSeeExpense => {
+            return {
+                title: item.description,
+                category: item.category.name,
+                amount: item.amount,
+                date: item.expenseDate
+            }
+        })
+        console.log(item.description);
+        
+    }
+
+
+
     const rows = 
         expenses.map ( expense => 
             
@@ -27,8 +94,10 @@ const Expenses = () => {
                     <td>₹{expense.amount}</td>
                     <td>{expense.expenseDate}</td>
                     <td style={{gap:50}}>
-                        <button type="button" class="btn btn-danger btn-sm" onClick={remove(expense.id)} >Delete</button>
-                        <button  style={{marginLeft:20}} type="button" class="btn btn-primary btn-sm">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm" onClick={() => removeExpense(expense.id)} >Delete</button>
+                        <Link to="/updateExpense" component={<UpdateExpense seeExpense={seeExpense} />}>
+                            <button href="/updateExpense" style={{marginLeft:20}} type="button" class="btn btn-primary btn-sm" onClick={() => selectExpense(expense.id)} >Update</button>
+                        </Link>
                     </td>
             </tr>
 

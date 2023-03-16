@@ -25,3 +25,13 @@ body {
 /* .dropdown-center > btn {
   background-image: white;
 } */
+
+.updateForm{
+  max-width:30%;
+  margin:0 auto;
+  padding: 20px;
+}
+
+.form-group{
+  padding: 10px ;
+}
