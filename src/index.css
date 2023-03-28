@@ -3,6 +3,10 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.expense-heading{
+  font-size: 20px;
+}
+
 .navbar{
   margin: auto;
     background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(53, 139, 238));
@@ -19,7 +23,7 @@ body {
 }
 
 .nav{
-  background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(10, 9, 9, 0.341));
+  background-image: linear-gradient(3deg, rgba(255,0,0,0), rgba(10, 9, 9, 0.341));
 }
 
 /* .dropdown-center > btn {
@@ -34,4 +38,43 @@ body {
 
 .form-group{
   padding: 10px ;
+}
+
+.add{
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238));
+  display: flex;
+  margin: auto;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  width: 300px;
+  height: 40px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.add:hover{
+  background-image: linear-gradient(3deg, rgba(255,0,0,0), rgba(10, 9, 9, 0.341));
+}
+
+.submit:hover{
+  background-color: rgb(0, 0, 0);
+}
+
+.cancel:hover{
+  background-color: black;
+}
+
+.updatebutton{
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238));
+}
+
+.updatebutton:hover{
+  background-image: linear-gradient(3deg, rgba(255,0,0,0), rgba(10, 9, 9, 0.341));
+}
+
+.deletebutton{
+  background-image: linear-gradient(to left, red, rgb(184, 32, 32));
+}
+
+.deletebutton:hover{
+  background-image: linear-gradient(to right, red, rgb(184, 32, 32));
 }

@@ -1,107 +1,127 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import UpdateExpense from './UpdateExpense';
 
+
 const Expenses = () => {
+
+
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [expenses, setExpenses] = useState([]);
     const [seeExpense, setSeeExpense] = useState({
-        title:"helllo ",
+        title:"helloo",
         category:"",
         amount:"",
         date:""
     })
 
-    // const [title, setTitle] = useState("");
-    // const [category, setCategory] = useState("");
-    // const [amount, setAmount] = useState("");
-    // const [date, setDate] = useState("");
 
     //GET EXPENSES
     const fetchAPI = async() => {
+       
         setLoading(true);
         
-        const responseExp = await axios.get("http://localhost:8080/api/expenses");
+        const responseExp = await axios.get("http://localhost:8080/expenses");
         setExpenses(responseExp.data);
     
         setLoading(false);
+        
+        
     }
 
     useEffect( ()=> {
         fetchAPI();
     }, [])
 
+    
 
     //DELETE EXPENSE
-    function removeExpense(id){
-        fetch(`http://localhost:8080/api/expenses/${id}`,{
-            method:"DELETE",
-            //mode: "cors"
-            headers : {
-                'Content-Type': 'application/json'
-            }
-        }).then((result)=>{
-            result.json().then((resp)=>{
-                console.warn(resp)
-                fetchAPI()
-            })
-        })
-    }
+    // function removeExpense(id){
+
+    //     // axios.delete(`/api/expenses/${id}`)
+    //     // fetchAPI()
+
+    //     fetch(`/api/expenses/${id}`,{
+    //         method:"DELETE",
+    //         //mode: "cors"
+    //         headers : {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     }).then((result)=>{
+    //         result.json().then((resp)=>{
+    //             console.warn(resp)
+    //             fetchAPI()
+    //         })
+    //     })
+    // }
 
     // useEffect( ()=> {
     //     removeExpense();
     // }, [])
 
-    // const removeExpense = async(id) => {
+    const removeExpense = async(id) => {
         
-    //     const responseDel = await axios.delete(`http://localhost:8080/api/expenses/${id}`);
-    //     setExpenses(responseDel.data);
-    //     fetchAPI();
+        const responseDel = await axios.delete(`http://localhost:8080/expenses/${id}`);
+        // setExpenses(responseDel.data);
+        fetchAPI();
 
-    // }
+    }
+
+
+    // async function removeExpense(id) {
+    //     console.log(id);
+    //     try {
+    //       const response = await axios.delete(`/api/expenses/${id}`);
+    //       console.log(response.data);
+    //       return response.data;
+    //     } catch (error) {
+    //       console.error(error);
+    //       throw error;
+    //     }
+    //   }
+
+
 
     function selectExpense(id){
+        console.log(id);
         let item=expenses[id-1];
         
-        //console.log(item);
-        // setTitle(item.description);
-        // setCategory(item.category.name);
-        // setAmount(item.amount);
-        // setDate(item.expenseDate);
+        console.log(expenses[3]);
 
-        
-        setSeeExpense(prevSeeExpense => {
-            return {
+        setSeeExpense(
+            {
                 title: item.description,
                 category: item.category.name,
                 amount: item.amount,
                 date: item.expenseDate
             }
-        })
-        console.log(item.description);
+        )
+    
+        return item
         
+
     }
-
-
 
     const rows = 
         expenses.map ( expense => 
             
             <tr>
                     <td>{expense.description}</td>
-                    <td>{expense.category.name}</td>
+                    {/* <td>{expense.category.name}</td> */}
                     <td>₹{expense.amount}</td>
                     <td>{expense.expenseDate}</td>
                     <td style={{gap:50}}>
-                        <button type="button" class="btn btn-danger btn-sm" onClick={() => removeExpense(expense.id)} >Delete</button>
-                        <Link to="/updateExpense" component={<UpdateExpense seeExpense={seeExpense} />}>
-                            <button href="/updateExpense" style={{marginLeft:20}} type="button" class="btn btn-primary btn-sm" onClick={() => selectExpense(expense.id)} >Update</button>
-                        </Link>
+                        <button type="button" class="btn btn-danger btn-sm deletebutton" onClick={() => removeExpense(expense.id)} >Delete</button>
+                        {/* <Link to="/updateExpense" component={<UpdateExpense seeExpense={seeExpense} />}> */}
+                            <button key={expense.id} href="/updateExpense" style={{marginLeft:20}} type="button" class="btn btn-primary btn-sm updatebutton"
+                               onClick={() => {navigate( "/updateExpense", {state: selectExpense(expense.id)} )}}>Update</button>
+                        {/* </Link> */}
                     </td>
+                    
             </tr>
-
-
             )
 
   return (
@@ -110,13 +130,13 @@ const Expenses = () => {
       <div  class="container">
         <div style={{display:"flex"}}>
             <h2 style={{marginBottom:20, marginTop:20}}>Expenses</h2>
-            <div style={{marginLeft:"auto",marginTop:30, height:50}}>
-                <button type="button" class="btn btn-primary ">Add Expense</button>
+            {/* <div style={{marginLeft:"auto",marginTop:30, height:50}}>
+                <button type="button" href="/addNewExpense" class="btn btn-primary ">Add Expense</button>
                 
-            </div>
+            </div> */}
         </div> 
         <table class="table table-striped">
-            <thead>
+            <thead className='expense-heading'>
                 <tr>
                     <th>Title</th>
                     <th>Category</th>

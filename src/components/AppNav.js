@@ -24,10 +24,10 @@ const AppNav = () => {
 
         <ul class="nav nav-tabs "  >
             <li class="nav-item" >
-                <a class="nav-link active"  aria-current="page" href="/">Home</a>
+                <a class="nav-link active"  aria-current="page" href="/home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="/addExpense" >Add Expense</a>
+                <a class="nav-link" data-toggle="tab" href="/addNewExpense" >Add Expense</a>
             </li>
         </ul>
         
