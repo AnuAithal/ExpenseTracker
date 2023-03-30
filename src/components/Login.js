@@ -38,7 +38,7 @@ export const Login = () => {
             </Link>    
         </form>
         <Link to="/register" component={<Register/>}>
-        <button href="/register" className="link-btn" >Don't have an account? Register here</button>
+        <button href="/register" className="link-btn-register" >Don't have an account? Register here</button>
         </Link>
     </div>
     )

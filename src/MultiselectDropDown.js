@@ -27,20 +27,20 @@ function MultiselectDropDown(){
     //     {Catselect:'Food',id:4},
     //     {Catselect:'Shopping',id:5}
     // ]
-    const data=
-        categories.map(category => 
-            {let Catselect = category.name}
-            )
     
-
+    function handleSelection(event) { 
+        const selectedValues = Array.from(event.target.selectedOptions, category => category.name);
+    }
 
     // const [options] = useState(data);
 
     return(
-        <div style={{heigh:10}}>
-            <Multiselect options={data} displayValue='Catselect' />
+        <select multiple onChange={handleSelection}>
+            {categories.map(category => (
+                <option key={category.id} value={category.name}>{category.name}</option>
+            ))}
+        </select>
 
-        </div>
     )
 }
 export default MultiselectDropDown

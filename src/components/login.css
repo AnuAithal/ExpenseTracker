@@ -46,4 +46,11 @@
     color: white;
     text-decoration: underline;
   }
+  .link-btn-register{
+    background: none;
+    color: white;
+    text-decoration: underline;
+    position: relative;
+    bottom: -220px;
+  }
   

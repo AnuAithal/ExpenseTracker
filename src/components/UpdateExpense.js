@@ -1,87 +1,135 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
+
 
 
 const UpdateExpense = () => {
 
   const navigate = useNavigate();
+  const {id} = useParams();
 
-    const loc = useLocation();
-    const data = loc.state
-    
-    //console.log(data);
+  // console.log(id);
 
-    const [item, setItem ] = useState({
-      title:data.description,
-      category:data.category.name,
-      amount:data.amount,
-      date:data.expenseDate
-  })
+  //   const loc = useLocation();
+  //   const data = loc.state
 
-   //console.log(item);
+    const [item, setItem ] = useState({})
 
-
-    function handleChange(event){
-      const { name , value } = event.target;
-      setItem({
-        [name] : value,
-      });
+    const [categories, setCategories]=useState([]);
   
+
+  const fetchExpense = async () => {
+    const result = await axios.get(`http://localhost:8080/expenses/${id}`);
+
+      setItem(result.data)
+  };
+
+  console.log(item);
+
+  useEffect(() => {
+    fetchExpense();
+    fetchCatAPI();
+  }, []);
+  
+console.log("Item",item)
+
+    function onInputChange(event){
+      const { name , value } = event.target;
+      console.log(name);
+      console.log(value);
+      setItem(() =>({
+        ...item,
+        [name] : value,
+      }));
+
+      // console.log(item);
     }
 
-
-    //UPDATE EXPENSE
-    function saveExpense(){
-      let exp=item;
-
-      axios.put(`https://localhost:8080/api/expenses/${data.id}`, {
-        exp
-      })
-
-      // fetch(`http://localhost:8080/api/expenses/${data.id}`,{
-      //       method:"PUT",
-      //       //mode: "cors"
-      //       headers : {
-      //           'Accept': 'application/json',
-      //           'Content-Type': 'application/json'
-      //       },
-      //       body:JSON.stringify(exp)
-      //   }).then((result)=>{
-      //       result.json().then((resp)=>{
-      //           console.warn(resp)
-      //           // fetchAPI()
-      //       })
-      //   })  
-
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      await axios.put(`http://localhost:8080/expenses/${id}`, item);
       navigate("/home");
+    };
+
+    
+
+
+  //   //UPDATE EXPENSE
+  //   function saveExpense(){
+  //     let exp=item;
+
+  //     axios.put(`http://localhost:8080/expenses/${data.id}`, {
+  //       exp
+  //     })
+
+  //     navigate("/home");
+  //   }
+
+  // useEffect(() => {
+  //     ExpenseService.getExpenseById(id).then((response) =>{
+
+  //     })
+  // }, [])
+
+    const fetchCatAPI = async() => {
+        const responseCat = await axios.get("http://localhost:8080/categories");
+        setCategories(responseCat.data);    
     }
+    console.log(categories);
+
+    
 
 
   return (
 
     <div>
-      <form className='updateForm'>
+      <form className='updateForm' onSubmit={(e) => onSubmit(e)}>
         <div class="form-group">
             <label>Title:</label>
-            <input type="text" value={item.title} onChange={handleChange}  class="form-control" id="title" placeholder="Enter title"/>
+            <input type="text" 
+              value={item.description} 
+              onChange={(e) => onInputChange(e)} 
+              class="form-control" 
+              name="description" 
+              placeholder="Enter title"
+            />
         </div>
         <div class="form-group">
             <label>Category:</label>
-            <input type="text" value={item.category} onChange={handleChange} class="form-control" id="category" placeholder="Category"/>
+            <select class="form-select" name="categoryId" aria-label="Default select example"
+            value={item?.categoryId}
+            onChange={(evt)=>onInputChange(evt)}>
+             {categories?.map((eachCat)=>(
+              <option key={eachCat?.id} value={eachCat?.id} >{eachCat?.name}</option>
+             ))}
+            </select>
         </div>
         <div class="form-group">
             <label>Amount:</label>
-            <input type="number" value={item.amount} onChange={handleChange} class="form-control" id="amount" placeholder="Enter Amount"/>
+            <input 
+              type="number" 
+              value={item.amount} 
+              onChange={(e) => onInputChange(e)} 
+              class="form-control" 
+              name="amount" 
+              placeholder="Enter Amount"
+            />
         </div>
         <div class="form-group">
             <label>Date:</label>
-            <input type="date" value={item.date} onChange={handleChange} class="form-control" id="date"/>
+            <input 
+              type="datetime-local" 
+              value={item.expenseDate} 
+              onChange={(e) => onInputChange(e)} 
+              class="form-control" 
+              name="expenseDate"
+              />
         </div>
         
-        <button onClick={saveExpense} style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} type="submit" class="btn btn-primary submit">Submit</button>
-        <button onClick={()=> {navigate("/home")}} style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(50deg, rgb(161, 159, 159), rgba(0, 0, 0, 0.711))"}} type="submit"  class="btn btn-secondary cancel">Cancel</button>
+        <button style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} type="submit" class="btn btn-primary submit">Submit</button>
+        <Link to="/home" style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(50deg, rgb(161, 159, 159), rgba(0, 0, 0, 0.711))"}}  className="btn btn-secondary cancel">Cancel</Link>
         </form>
     </div>
   )

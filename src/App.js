@@ -18,7 +18,7 @@ function App() {
           <Route path='/register' exact={true} element={<Register/>} ></Route>
           <Route path='/home' exact={true} element={<Home/>} ></Route>
           <Route path='/addNewExpense' exact={true} element={<AddNewExpense/>} ></Route>
-          <Route path='/updateExpense' exact={true} element={<UpdateExpense/>} ></Route>
+          <Route path='/updateExpense/:id' exact={true} element={<UpdateExpense/>} ></Route>
 
 
           {/* <Route path='/categories' exact={true} component={Categories} ></Route> */}

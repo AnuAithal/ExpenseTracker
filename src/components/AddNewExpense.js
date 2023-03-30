@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 // import './AddNewExpense.css';
 import AddNewCategory from './AddNewCategory';
 import {useNavigate } from 'react-router-dom';
 import AppNav from './AppNav';
+import axios from 'axios';
+import Select from 'react-select';
 import MultiselectDropDown from '../MultiselectDropDown';
 
 
 
 function AddNewExpense() {
-
-    
 
     const navigate = useNavigate();
 
@@ -37,7 +37,24 @@ function AddNewExpense() {
       }));
   
     }
-    
+
+    const [categories, setCategories]=useState([]);
+    const fetchCatAPI = async() => {
+        const responseCat = await axios.get("http://localhost:8080/api/categories");
+        setCategories(responseCat.data);    
+    }
+
+    useEffect( ()=> {
+        fetchCatAPI();
+    }, [])
+
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+
+  const options =    categories.map(category => (
+
+        <option key={category.id} value={category.name}>{category.name}</option>
+    ))
 
     return (
       <>
@@ -56,12 +73,12 @@ function AddNewExpense() {
         {isOpen && (
          <div>
           <div>
-            <ReactModal isOpen={isOpen}>
+           <ReactModal isOpen={isOpen}>
               <form onSubmit={handleSubmit} class = "updateForm">
-                <div class="form-group" style={{position:'absolute'}}>
-                <button onClick={() => setIsOpen(false)} href="/" style={{position:"absolute"}}>
+                <div class="form-group" style={{position:'relative'}}>
+                <button onClick={() => setIsOpen(false)} href="/" >
                   <img 
-                    style={{position:'relative', width:'20px', height:'20px'}}
+                    style={{position:'absolute', width:'30px', height:'30px',bottom:'65px',left:'885px'}}
                     class="image"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtSlgsUMYCSs9Do1Z38RYPxOxVSpTR6BCN2Q&usqp=CAU" 
                     alt="ButtonImage"
@@ -81,11 +98,15 @@ function AddNewExpense() {
                 </div>
                 <div class="form-group">
                 <label>Category:</label>
+                <Select
+                  isMulti
+                  options={options}
+                  value={selectedOptions}
+                  // onChange={handleSelectedOptionsChange}
+                />
 
 
-                  <MultiselectDropDown />
 
-                  
                 </div>
                 <div class="form-group">
                 <label>Amount:</label>

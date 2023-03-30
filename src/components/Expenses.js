@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UpdateExpense from './UpdateExpense';
 
 
@@ -11,24 +11,17 @@ const Expenses = () => {
 
     const [loading, setLoading] = useState(true);
     const [expenses, setExpenses] = useState([]);
-    const [seeExpense, setSeeExpense] = useState({
-        title:"helloo",
-        category:"",
-        amount:"",
-        date:""
-    })
+    
 
 
     //GET EXPENSES
     const fetchAPI = async() => {
        
         setLoading(true);
-        
         const responseExp = await axios.get("http://localhost:8080/expenses");
         setExpenses(responseExp.data);
-    
+        // console.log(responseExp.data);
         setLoading(false);
-        
         
     }
 
@@ -85,42 +78,40 @@ const Expenses = () => {
 
 
 
-    function selectExpense(id){
-        console.log(id);
-        let item=expenses[id-1];
+    // function selectExpense(id){
+    //     console.log(id);
+    //     let item=expenses[id];
         
-        console.log(expenses[3]);
+    //     console.log(expenses[id]);
 
-        setSeeExpense(
-            {
-                title: item.description,
-                category: item.category.name,
-                amount: item.amount,
-                date: item.expenseDate
-            }
-        )
+    //     setSeeExpense(
+    //         {
+    //             title: item.description,
+    //             category: item.category.name,
+    //             amount: item.amount,
+    //             date: item.expenseDate
+    //         }
+    //     )
     
-        return item
+    //     return item
         
 
-    }
+    // }
+
 
     const rows = 
-        expenses.map ( expense => 
+        expenses.map ( (expense, index) => 
             
-            <tr>
+            <tr >
                     <td>{expense.description}</td>
-                    {/* <td>{expense.category.name}</td> */}
+                    <td>{expense.categoryName}</td>
                     <td>₹{expense.amount}</td>
                     <td>{expense.expenseDate}</td>
                     <td style={{gap:50}}>
                         <button type="button" class="btn btn-danger btn-sm deletebutton" onClick={() => removeExpense(expense.id)} >Delete</button>
-                        {/* <Link to="/updateExpense" component={<UpdateExpense seeExpense={seeExpense} />}> */}
-                            <button key={expense.id} href="/updateExpense" style={{marginLeft:20}} type="button" class="btn btn-primary btn-sm updatebutton"
-                               onClick={() => {navigate( "/updateExpense", {state: selectExpense(expense.id)} )}}>Update</button>
-                        {/* </Link> */}
+                        <Link className='btn btn-primary btn-sm updatebutton' to={`/updateExpense/${expense.id}`}>Update</Link>
                     </td>
-                    
+                    {/* "btn btn-primary btn-sm updatebutton" */}
             </tr>
             )
 

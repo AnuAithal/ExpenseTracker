@@ -41,11 +41,11 @@ function AddNewCategory() {
           <div style={{padding:'0px'}}>
             <ReactModal isOpen={isOpen}>
               <form onSubmit={handleSubmit} class = "updateForm" >
-                <div class="canceldiv" style={{width:'20px', position:'absolute', right:'35px' , top:'20px'}}>
-                <button onClick={handleChange} style={{position:"relative"}}>
+                <div class="canceldiv" style={{width:'20px', position:'relative'}}>
+                <button onClick={handleChange} >
                   <img 
                     class="image"
-                    style={{position:'relative', width:'20px', height:'20px'}}
+                    style={{position:'absolute', width:'30px', height:'30px',bottom:'45px',left:'885px'}}
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtSlgsUMYCSs9Do1Z38RYPxOxVSpTR6BCN2Q&usqp=CAU" 
                     alt="ButtonImage"
                   />
