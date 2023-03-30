@@ -14,47 +14,46 @@ function AddNewExpense() {
 
     const navigate = useNavigate();
 
+    const [categories, setCategories]=useState([]);
+
     const [isOpen, setIsOpen] = useState();
     const [formData, setFormData] = useState({
-      Title: "",
-      Category: "",
-      Amount: "",
-      Date: "",
-
+      expenseDate: "",
+      description: "",
+      amount: "",
+      categoryId: ""
     });
     
-    function handleSubmit(event){
-      event.predefault();
-      setIsOpen(false);
+    
 
-    }
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      await axios.post("http://localhost:8080/expenses", formData);
+      // navigate("/addNewExpense");
+      setIsOpen(false);
+    };
+  
+      
 
     function handleChange(event){
       const { name , value } = event.target;
-      setFormData((prevFormData) => ({
-        ...prevFormData,
+      setFormData(() =>({
+        ...formData,
         [name] : value,
       }));
-  
+      
     }
+    console.log(formData);
 
-    const [categories, setCategories]=useState([]);
     const fetchCatAPI = async() => {
-        const responseCat = await axios.get("http://localhost:8080/api/categories");
-        setCategories(responseCat.data);    
+        const responseCat = await axios.get("http://localhost:8080/categories");
+        setCategories(responseCat.data);         
     }
 
     useEffect( ()=> {
         fetchCatAPI();
     }, [])
 
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
-
-  const options =    categories.map(category => (
-
-        <option key={category.id} value={category.name}>{category.name}</option>
-    ))
 
     return (
       <>
@@ -67,8 +66,6 @@ function AddNewExpense() {
             Add New Expense
           </button>
         
-        
-  
    
         {isOpen && (
          <div>
@@ -90,22 +87,25 @@ function AddNewExpense() {
                   <input 
                     class="form-control"
                     type="text"
-                    name="Title"
+                    name="description"
                     placeholder= 'Enter Title'
-                    value={formData.Title}
-                    onChange={handleChange}
+                    value={formData.description}
+                    onChange={(e) => handleChange(e)}
                     />
                 </div>
+
+
                 <div class="form-group">
                 <label>Category:</label>
-                <Select
-                  isMulti
-                  options={options}
-                  value={selectedOptions}
-                  // onChange={handleSelectedOptionsChange}
-                />
-
-
+                <select class="form-select" name="categoryId" aria-label="Default select example"
+                 value={formData.categoryId}
+                 onChange={(e) => handleChange(e)}
+                >
+                  <option selected>Select a Category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  ) )}
+                </select>
 
                 </div>
                 <div class="form-group">
@@ -113,20 +113,21 @@ function AddNewExpense() {
                   <input
                     class="form-control"
                     type="text"
-                    name="Amount"
+                    name="amount"
                     placeholder= 'Enter amount'
-                    value={formData.Amount}
-                    onChange={handleChange}
+                    value={formData.amount}
+                    onChange={(e) => handleChange(e)}
                   />
                 </div>
+
                 <div class="form-group">
                 <label>Date:</label> 
                   <input 
                     class="form-control"
-                    type="date"
-                    name="date"
-                    value={formData.Date}
-                    onChange={handleChange}
+                    type="datetime-local"
+                    name="expenseDate"
+                    value={formData.expenseDate}
+                    onChange={(e) => handleChange(e)}
                   />
                 
                 </div>

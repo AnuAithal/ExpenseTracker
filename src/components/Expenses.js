@@ -29,31 +29,6 @@ const Expenses = () => {
         fetchAPI();
     }, [])
 
-    
-
-    //DELETE EXPENSE
-    // function removeExpense(id){
-
-    //     // axios.delete(`/api/expenses/${id}`)
-    //     // fetchAPI()
-
-    //     fetch(`/api/expenses/${id}`,{
-    //         method:"DELETE",
-    //         //mode: "cors"
-    //         headers : {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     }).then((result)=>{
-    //         result.json().then((resp)=>{
-    //             console.warn(resp)
-    //             fetchAPI()
-    //         })
-    //     })
-    // }
-
-    // useEffect( ()=> {
-    //     removeExpense();
-    // }, [])
 
     const removeExpense = async(id) => {
         
@@ -62,41 +37,6 @@ const Expenses = () => {
         fetchAPI();
 
     }
-
-
-    // async function removeExpense(id) {
-    //     console.log(id);
-    //     try {
-    //       const response = await axios.delete(`/api/expenses/${id}`);
-    //       console.log(response.data);
-    //       return response.data;
-    //     } catch (error) {
-    //       console.error(error);
-    //       throw error;
-    //     }
-    //   }
-
-
-
-    // function selectExpense(id){
-    //     console.log(id);
-    //     let item=expenses[id];
-        
-    //     console.log(expenses[id]);
-
-    //     setSeeExpense(
-    //         {
-    //             title: item.description,
-    //             category: item.category.name,
-    //             amount: item.amount,
-    //             date: item.expenseDate
-    //         }
-    //     )
-    
-    //     return item
-        
-
-    // }
 
 
     const rows = 

@@ -37,8 +37,6 @@ console.log("Item",item)
 
     function onInputChange(event){
       const { name , value } = event.target;
-      console.log(name);
-      console.log(value);
       setItem(() =>({
         ...item,
         [name] : value,
@@ -53,33 +51,11 @@ console.log("Item",item)
       navigate("/home");
     };
 
-    
-
-
-  //   //UPDATE EXPENSE
-  //   function saveExpense(){
-  //     let exp=item;
-
-  //     axios.put(`http://localhost:8080/expenses/${data.id}`, {
-  //       exp
-  //     })
-
-  //     navigate("/home");
-  //   }
-
-  // useEffect(() => {
-  //     ExpenseService.getExpenseById(id).then((response) =>{
-
-  //     })
-  // }, [])
-
     const fetchCatAPI = async() => {
         const responseCat = await axios.get("http://localhost:8080/categories");
         setCategories(responseCat.data);    
     }
     console.log(categories);
-
-    
 
 
   return (
