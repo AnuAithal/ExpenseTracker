@@ -11,7 +11,7 @@ const Expenses = () => {
 
     const [loading, setLoading] = useState(true);
     const [expenses, setExpenses] = useState([]);
-    
+    const [searchTerm, setSearchTerm] = useState("");
 
 
     //GET EXPENSES
@@ -40,7 +40,15 @@ const Expenses = () => {
 
 
     const rows = 
-        expenses.map ( (expense, index) => 
+        expenses.filter((expense)=> {
+            if(searchTerm === ""){
+                return expense
+            }else if(expense.description.toLowerCase().includes(searchTerm.toLowerCase())){
+                return expense
+            }else if(expense.categoryName.toLowerCase().includes(searchTerm.toLowerCase())){
+                return expense
+            }
+        }).map ( (expense, index) => 
             
             <tr >
                     <td>{expense.description}</td>
@@ -57,8 +65,15 @@ const Expenses = () => {
 
   return (
     <div>
+
+        
       
       <div  class="container">
+        <div className='searchbar'>
+            <form  class="form-inline my-2 my-lg-0">
+            <input onChange={(e)=> {setSearchTerm(e.target.value)}} style={{maxWidth:'250px', marginTop:'20px'}} class="form-control mr-sm-2" type="search" placeholder="Search..." aria-label="Search"/>
+            </form>
+        </div>
         <div style={{display:"flex"}}>
             <h2 style={{marginBottom:20, marginTop:20}}>Expenses</h2>
             {/* <div style={{marginLeft:"auto",marginTop:30, height:50}}>
@@ -66,8 +81,8 @@ const Expenses = () => {
                 
             </div> */}
         </div> 
-        <table class="table table-striped">
-            <thead className='expense-heading'>
+        <table class="table table-striped" >
+            <thead className='expense-heading' style={{color:'white'}}>
                 <tr>
                     <th>Title</th>
                     <th>Category</th>
@@ -76,7 +91,7 @@ const Expenses = () => {
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style={{backgroundColor:'white'}}>
 
                 {rows}
 

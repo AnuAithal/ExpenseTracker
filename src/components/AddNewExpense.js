@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 // import './AddNewExpense.css';
 import AddNewCategory from './AddNewCategory';
-import {useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import AppNav from './AppNav';
+import Cards from './Cards';
 import axios from 'axios';
 import Select from 'react-select';
 import MultiselectDropDown from '../MultiselectDropDown';
@@ -16,7 +17,7 @@ function AddNewExpense() {
 
     const [categories, setCategories]=useState([]);
 
-    const [isOpen, setIsOpen] = useState();
+    const [isOpen, setIsOpen] = useState("Add");
     const [formData, setFormData] = useState({
       expenseDate: "",
       description: "",
@@ -29,9 +30,16 @@ function AddNewExpense() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       await axios.post("http://localhost:8080/expenses", formData);
-      // navigate("/addNewExpense");
       setIsOpen(false);
+      navigate("/Cards");
     };
+
+    const modalstyles={
+      content: {
+        width:'550px',
+        margin:'auto',
+      }
+    }
   
       
 
@@ -52,35 +60,37 @@ function AddNewExpense() {
 
     useEffect( ()=> {
         fetchCatAPI();
-    }, [])
+    }, [categories.id])
 
 
     return (
       <>
         
         
-        <AppNav/>
+        
 
 
-          <button class="btn btn-primary add" style={{marginTop:150}} onClick={() => setIsOpen(true) } >
+          {/* <button class="btn btn-primary add" style={{marginTop:150}} onClick={() => setIsOpen(true) } >
             Add New Expense
-          </button>
+          </button> */}
         
    
         {isOpen && (
          <div>
           <div>
-           <ReactModal isOpen={isOpen}>
-              <form onSubmit={handleSubmit} class = "updateForm">
+           <ReactModal isOpen={isOpen} style={modalstyles}>
+              <form  class = "updateForm">
                 <div class="form-group" style={{position:'relative'}}>
-                <button onClick={() => setIsOpen(false)} href="/" >
+                <Link to='/Cards' component={<Cards/>}>
+                <button onClick={() => setIsOpen(false)} href="/Cards" >
                   <img 
-                    style={{position:'absolute', width:'30px', height:'30px',bottom:'65px',left:'885px'}}
+                    style={{position:'absolute', width:'30px', height:'30px',bottom:'65px',marginLeft:'350px'}}
                     class="image"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtSlgsUMYCSs9Do1Z38RYPxOxVSpTR6BCN2Q&usqp=CAU" 
                     alt="ButtonImage"
                   />
                 </button>
+                </Link>
                 </div>
                 <div class="form-group">
                 <label>Title:</label >
@@ -132,21 +142,25 @@ function AddNewExpense() {
                 
                 </div>
                 <div class="btn">
-                <button style={{marginLeft:-2, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} class = "btn btn-primary submit" type="submit">Save</button>
-                <button onClick={()=> {navigate("/addNewExpense")}} style={{marginLeft:15, marginTop:10, backgroundImage: "linear-gradient(50deg, rgb(161, 159, 159), rgba(0, 0, 0, 0.711))"}} class = "btn btn-secondary cancel" type="cancel">Cancel</button>
+                <Link to='/Cards' component={<Cards/>}>
+                <button onClick={handleSubmit} style={{marginLeft:-2, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} class = "btn btn-primary updatebutton" type="submit">Save</button>
+                </Link>
+                <Link to='/Cards' component={<Cards/>}>
+                <button onClick={()=> setIsOpen(false)} style={{marginLeft:15, marginTop:10, backgroundImage: "linear-gradient(50deg, rgb(161, 159, 159), rgba(0, 0, 0, 0.711))"}} class = "btn btn-secondary cancel" type="cancel">Cancel</button>
+                </Link>
                 </div>
               </form> 
             </ReactModal>
           </div>
-          <button onClick={() => setIsOpen(false)}>
+  {/*         <button onClick={() => setIsOpen(false)}>
             Close
-          </button>
+          </button> */}
          </div>
         )}
 
 
     
-        <AddNewCategory/>
+        {/* <AddNewCategory/> */}
       </>
     );
   }

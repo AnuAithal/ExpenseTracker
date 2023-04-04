@@ -1,7 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 
 
 const AppNav = () => {
+
+    const [isActive, setIsActive] = useState("true");
+
+    function handleToggle(){
+        setIsActive(!isActive);
+    }
+
+    // const [tab1, setTab1] = useState(true);
+    // const [tab2, setTab2] = useState(false);
+
+    // const style1 = {
+    //     backgroundColor: tab1 ? "black" : "white" 
+    // }
+    // const style2 = {
+    //     backgroundColor: tab2 ? "black" : "white" 
+    // }
+
+    // function handleTab1(){
+    //     setTab1(true);
+    //     setTab2(false);
+    // }
+    // function handleTab2(){
+    //     setTab2(true);
+    //     // setTab1(false);
+    // }
+
   return (
     <div>
         <nav class="navbar bg-dark">
@@ -22,12 +49,12 @@ const AppNav = () => {
 
         </nav>
 
-        <ul class="nav nav-tabs "  >
+        <ul class="nav nav-tabs " style={{backgroundColor:'white'}} >
             <li class="nav-item" >
-                <a class="nav-link active"  aria-current="page" href="/home">Home</a>
+                <a className={isActive ? "nav-link active" : "nav-link"}    onClick={handleToggle} /*onClick={handleTab1} style={style1}*/ aria-current="page" href="/home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="/addNewExpense" >Add Expense</a>
+                <a className={isActive ? "nav-link active" : "nav-link"} onClick={handleToggle}  href="/Cards" >Add New</a>
             </li>
         </ul>
         

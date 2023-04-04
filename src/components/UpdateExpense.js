@@ -104,7 +104,7 @@ console.log("Item",item)
               />
         </div>
         
-        <button style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} type="submit" class="btn btn-primary submit">Submit</button>
+        <button style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}} type="submit" class="btn btn-primary submit1">Submit</button>
         <Link to="/home" style={{marginLeft:10, marginTop:10, backgroundImage: "linear-gradient(50deg, rgb(161, 159, 159), rgba(0, 0, 0, 0.711))"}}  className="btn btn-secondary cancel">Cancel</Link>
         </form>
     </div>
