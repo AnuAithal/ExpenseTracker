@@ -1,8 +1,12 @@
 import { apiHelper } from "./apiHelper";
 
 export const getUserLogin = async (data) => {
+  try{
   const response = await apiHelper.post(`/users/login`, data);
-  return await Promise.resolve(response.data);
+  return Promise.resolve(response.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 export const getExpense = async () => {

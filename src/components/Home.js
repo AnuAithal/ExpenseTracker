@@ -6,7 +6,7 @@ import Expenses from './Expenses'
 const Home = () => {
   return (
     <div>
-      <AppNav/>
+    <AppNav/>
      <Expenses />
     </div>
   )

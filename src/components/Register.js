@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import { Link } from "react-router-dom";
 import { Login } from "./Login";
+import axios from "axios";
 
 export const Register = () => {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-    const [name, setName] = useState('');
+    
+  const [registerData, setRegisterData] = useState({
+    // name:"",
+    // email:"",
+    // password:""
+  });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email);
+        await axios.post("http://localhost:8080/users", registerData);
     }
     
+    function handleChange(event){
+      const {name, value} = event.target;
+      setRegisterData(() =>({
+        ...registerData,
+        [name]:value,
+      }));
+    }
+    console.log(registerData)
+  
+
     return(
 
         <div className="auth-form-container">
@@ -22,18 +36,18 @@ export const Register = () => {
            </nav>
           </header>
           <h2>Register</h2>  
-          <form className="register-form" onSubmit={handleSubmit}>
+          <div className="register-form">
             <label htmlFor="name">Full name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} name="name" id="name" placeholder="   " />
+            <input value={registerData.name} onChange={(e) => handleChange(e)} name="name" placeholder="   " />
             <label htmlFor="email">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="  " id="email" name="email" />
+            <input value={registerData.email} onChange={(e) => handleChange(e)} type="email" placeholder="  "  name="email" />
             <label htmlFor="password">Password</label>
-            <input value={pass} onChange={(e)=> setPass(e.target.value)} type="password" placeholder="  " id="password" name="password" /> 
+            <input value={registerData.password} onChange={(e)=> handleChange(e)} type="password" placeholder="  " name="password" /> 
             <br />
-            <Link to="/home" component={<Home/>}>
-            <button type="submit">SignUp</button> 
-            </Link>      
-          </form>
+            {/* <Link to="/home" component={<Home/>}> */}
+            <button onClick={handleSubmit}>Register</button> 
+            {/* </Link>       */}
+          </div>
           <Link to="/" component={<Login/>}>
           <button href="/" className="link-btn">Already have an account? Login here</button>
           </Link>

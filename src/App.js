@@ -17,11 +17,11 @@ function App() {
       {/* <AppNav/> */}
 
       <BrowserRouter>
-      <AppNav/>
+      {/* <AppNav/> */}
         <Routes>
           <Route index element={<Login/>} ></Route>
           <Route path='/register' exact={true} element={<Register/>} ></Route>
-          <Route path='/home'  element={<Expenses/>} ></Route>
+          <Route path='/home'  element={<Home/>} ></Route>
           
           <Route path='/Cards' exact={true} element={<Cards/>} ></Route>
           <Route path='/updateExpense/:id' exact={true} element={<UpdateExpense/>} ></Route>

@@ -1,28 +1,47 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UpdateExpense from "./UpdateExpense";
 import { getExpense } from "../services/UserService";
 
+
+
 const Expenses = () => {
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  let token = localStorage.getItem('token')
+  console.log("tokkeennn",token);
+
+  
+
   useEffect(() => {
     // setLoading(true);
-    getExpense()
+    // getExpense()
+    //   .then((res) => {
+    //     setExpenses(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+    async function getExpenses(){
+      await getExpense()
       .then((res) => {
-        setExpenses(res);
+          setExpenses(res);
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
+      console.log("erroor login", err);
       });
+    }
+    getExpenses()
+
   },[]);
 
   //GET EXPENSES
@@ -33,29 +52,28 @@ const Expenses = () => {
   //     // setExpenses(responseExp.data);
   //     // console.log(responseExp.data);
 
-  //     getExpense()
-  //     .then((res) => {
-  //         setExpenses(res);
-  //         console.log(expenses);
-  //         console.log(res);
-  //         console.log("sucess");
-  //     })
+      // getExpense()
+      // .then((res) => {
+      //     setExpenses(res);
+      //     console.log(expenses);
+      //     console.log(res);
+      //     console.log("sucess");
+      // })
 
-  //     .catch((err) => {
-  //     console.log("erroor login", err);
-  //     });
+      // .catch((err) => {
+      // console.log("erroor login", err);
+      // });
   //     setLoading(false);
 
   // }
 
 
-
   const removeExpense = async (id) => {
-    const responseDel = await axios.delete(
-      `http://localhost:8080/expenses/${id}`
-    );
-    // setExpenses(responseDel.data);
-    // fetchAPI();
+    const responseDel = await axios.delete(`http://localhost:8080/expenses/${id}`);
+    await getExpense()
+    .then((res) => {
+      setExpenses(res);
+    })
   };
 
   const rows = expenses
