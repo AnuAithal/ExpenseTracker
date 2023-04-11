@@ -1,33 +1,21 @@
 import React, { useState } from 'react'
-
-
+import { Nav, NavItem, NavLink} from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
 const AppNav = () => {
 
-    const [isActive, setIsActive] = useState("true");
+    const navigate=useNavigate();
+    const [activeTab, setActiveTab] = useState('1');
 
-    function handleToggle(){
-        setIsActive(!isActive);
+    // function handleToggle(){
+    //     navigate("/Cards");
+        
+    // }
+
+    function doLogout(){
+        localStorage.clear();
+        navigate("/")
     }
-
-    // const [tab1, setTab1] = useState(true);
-    // const [tab2, setTab2] = useState(false);
-
-    // const style1 = {
-    //     backgroundColor: tab1 ? "black" : "white" 
-    // }
-    // const style2 = {
-    //     backgroundColor: tab2 ? "black" : "white" 
-    // }
-
-    // function handleTab1(){
-    //     setTab1(true);
-    //     setTab2(false);
-    // }
-    // function handleTab2(){
-    //     setTab2(true);
-    //     // setTab1(false);
-    // }
 
   return (
     <div>
@@ -43,21 +31,35 @@ const AppNav = () => {
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/">Log out</a></li>
+                    <li><a class="dropdown-item" onClick={()=>doLogout()}>Log out</a></li>
                 </ul>
             </div>
 
         </nav>
 
-        <ul class="nav nav-tabs " style={{backgroundColor:'white'}} >
-            <li class="nav-item" >
-                <a className={isActive ? "nav-link active" : "nav-link"}    onClick={handleToggle} /*onClick={handleTab1} style={style1}*/ aria-current="page" href="/home">Home</a>
-            </li>
+        {/* <ul class="nav nav-tabs "  >
             <li class="nav-item">
-                <a className={isActive ? "nav-link active" : "nav-link"} onClick={handleToggle}  href="/Cards" >Add New</a>
+                <a className={activeTab === '1' ? 'nav-link active' : 'nav-link'} onClick={()=> setActiveTab('1')} aria-current="page" href="/home">Home</a>
             </li>
-        </ul>
+            <li class="nav-item" onClick={()=> navigate("/Cards")}>
+                <a className={activeTab === '2' ? 'nav-link active' : 'nav-link'}  onClick={()=> setActiveTab('2')} >Add New</a>
+            </li>
+        </ul> */}
         
+        <div>
+            <Nav tabs className="nav nav-tabs" style={{backgroundColor:'white'}}>
+                <NavItem className="nav-item">
+                <NavLink className={activeTab == '1' ? 'active' : ''} onClick={() => setActiveTab('1')} href="/home">
+                    Home
+                </NavLink>
+                </NavItem>
+                <NavItem style={{cursor: 'pointer'}} className="nav-item" onClick={()=> navigate("/Cards") } >
+                <NavLink className={activeTab == '2' ? 'active' : ''} onClick={()=> setActiveTab('2')} >
+                    Add New
+                </NavLink>
+                </NavItem>
+            </Nav>
+        </div>
     </div>
   )
 }

@@ -6,6 +6,8 @@ import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import Cards from "./components/Cards";
 import AddNewCategory from "./components/AddNewCategory";
+import AppNav from "./components/AppNav";
+import Expenses from "./components/Expenses";
 // import AddNewCategory from "./components/AddNewCategory";
 
 function App() {
@@ -15,10 +17,11 @@ function App() {
       {/* <AppNav/> */}
 
       <BrowserRouter>
+      <AppNav/>
         <Routes>
-          <Route path='/' exact={true} element={<Login/>} ></Route>
+          <Route index element={<Login/>} ></Route>
           <Route path='/register' exact={true} element={<Register/>} ></Route>
-          <Route path='/home' exact={true} element={<Home/>} ></Route>
+          <Route path='/home'  element={<Expenses/>} ></Route>
           
           <Route path='/Cards' exact={true} element={<Cards/>} ></Route>
           <Route path='/updateExpense/:id' exact={true} element={<UpdateExpense/>} ></Route>

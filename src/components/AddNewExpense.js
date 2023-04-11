@@ -48,8 +48,7 @@ function AddNewExpense() {
       setFormData(() =>({
         ...formData,
         [name] : value,
-      }));
-      
+      })); 
     }
     console.log(formData);
 
@@ -65,10 +64,7 @@ function AddNewExpense() {
 
     return (
       <>
-        
-        
-        
-
+   
 
           {/* <button class="btn btn-primary add" style={{marginTop:150}} onClick={() => setIsOpen(true) } >
             Add New Expense

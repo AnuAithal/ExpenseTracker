@@ -3,21 +3,41 @@ import { Link } from "react-router-dom";
 import Home from "./Home";
 import { Register } from "./Register";
 import './login.css'
-// import {useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
+import { apiHelper } from "../services/apiHelper";
+import { getUserLogin } from "../services/UserService";
 
   
 export const Login = () => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [loginData, setLoginData] = useState({
+        
+    })
  
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
+    const handleSubmit =  () => {
+        console.log("innnnn")
+        getUserLogin(loginData)
+        .then((res) => {
+        localStorage.setItem("token", res.accessToken);
+        console.log(res.accessToken);
+    })
+    .catch((err) => {
+        console.log("error", err);
+    });
+    navigate("/home");
+          
+    };
 
-    }
+    function handleChange(event){
+        const { name , value } = event.target;
+        setLoginData(() =>({
+          ...loginData,
+          [name] : value,
+        })); 
+      }
+      console.log(loginData);
 
     return(
     <div className="auth-form-container">
@@ -27,18 +47,29 @@ export const Login = () => {
            </nav>
         </header>
         <h2>Login</h2>
-        <form className="login-form" style={{height:'50px'}} onSubmit={handleSubmit}>
+        <form className="login-form" style={{height:'50px'}} >
             <label htmlFor="email">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="  " id="email" name="email" />
+            <input value={loginData.username} onChange={(e) => handleChange(e)} type="email" placeholder="  " id="email" name="username" />
             <label htmlFor="password">Password</label>
-            <input value={pass} onChange={(e)=> setPass(e.target.value)} type="password" placeholder="" id="password" name="password" />
+            <input value={loginData.password} onChange={(e) => handleChange(e)} type="password" placeholder="" id="password" name="password" />
             <br /> 
-            <Link to="/home" component={<Home/>}>
-            <button href="/home" type="submit">Login</button> 
-            </Link>    
+            {/* <Link to="/home" component={<Home/>}> */}
+            <button onClick={()=>handleSubmit()} type="submit">Login</button> 
+            {/* </Link>     */}
         </form>
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+       <br />
+
         <Link to="/register" component={<Register/>}>
-        <button href="/register" className="link-btn-register" >Don't have an account? Register here</button>
+        <button style={{bottom:"-110px" }}href="/" className="link-btn">Don't have an account? Register here</button>
         </Link>
     </div>
     )
