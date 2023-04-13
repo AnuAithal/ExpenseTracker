@@ -8,6 +8,7 @@ import Cards from "./components/Cards";
 import AddNewCategory from "./components/AddNewCategory";
 import AppNav from "./components/AppNav";
 import Expenses from "./components/Expenses";
+import Recurring from "./components/Recurring";
 // import AddNewCategory from "./components/AddNewCategory";
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <BrowserRouter>
       {/* <AppNav/> */}
         <Routes>
-          <Route index element={<Login/>} ></Route>
+          <Route path='/' exact={true} element={<Login/>} ></Route>
           <Route path='/register' exact={true} element={<Register/>} ></Route>
           <Route path='/home'  element={<Home/>} ></Route>
           
@@ -27,6 +28,7 @@ function App() {
           <Route path='/updateExpense/:id' exact={true} element={<UpdateExpense/>} ></Route>
           <Route path='/AddNewExpense' exact={true} element={<AddNewExpense/>}></Route>
           <Route path='/AddNewCategory' exact={true} element={<AddNewCategory/>}></Route>
+          <Route path="/Recurring" exact={true} element={<Recurring/>}></Route>
 
 
           {/* <Route path='/categories' exact={true} component={Categories} ></Route> */}

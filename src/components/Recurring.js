@@ -8,12 +8,12 @@ import Cards from './Cards';
 import axios from 'axios';
 import Select from 'react-select';
 import MultiselectDropDown from '../MultiselectDropDown';
-import { addExpense, getExpense } from '../services/UserService';
+import { addExpense, getExpense, addRecurrExpense } from '../services/UserService';
 
 
 
 
-function AddNewExpense() {
+function Recurring() {
 
     const navigate = useNavigate();
 
@@ -24,7 +24,8 @@ function AddNewExpense() {
       expenseDate: "",
       description: "",
       amount: "",
-      categoryId: ""
+      categoryId: "",
+      reccuringDate: ""
     });
     
     
@@ -38,11 +39,9 @@ function AddNewExpense() {
 
     const handleSubmit = async () => {
       console.log("innnnn")
-      await addExpense(formData)
+      await addRecurrExpense(formData)
       .then((res) => {
       localStorage.setItem("token", res.accessToken);
-
-      
       getExpense();
       navigate("/home")
   })
@@ -149,7 +148,17 @@ function AddNewExpense() {
                     value={formData.expenseDate}
                     onChange={(e) => handleChange(e)}
                   />
-                
+                </div>
+                <div class="form-group">
+                <label>Recurring Date:</label> 
+                  <input 
+                    class="form-control"
+                    type="text"
+                    name="reccuringDate"
+                    placeholder='Enter Recurring Date'
+                    value={formData.reccuringDate}
+                    onChange={(e) => handleChange(e)}
+                  />
                 </div>
                 <div class="btn">
                 {/* <Link to='/Cards' component={<Cards/>}> */}
@@ -175,4 +184,4 @@ function AddNewExpense() {
     );
   }
    
-  export default AddNewExpense;
+  export default Recurring;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import UpdateExpense from "./UpdateExpense";
 import { getExpense } from "../services/UserService";
+import ConfirmBox from "./ConfirmBox";
 
 
 
@@ -12,12 +13,18 @@ const Expenses = () => {
 
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
+  const [sortOrder, setSortOrder]=useState('');
   const [searchTerm, setSearchTerm] = useState("");
+  const unsortOrder = [...expenses];
 
-  let token = localStorage.getItem('token')
-  console.log("tokkeennn",token);
+  // const [unsortOrder, setUnsortOrder]=useState(expenses);  
 
-  
+  const [open, setOpen] = useState(false);
+  const [deleteData, setDeleteData] = useState({});
+
+  // let token = localStorage.getItem('token')
+  // console.log("tokkeennn",token);
+
 
   useEffect(() => {
     // setLoading(true);
@@ -31,18 +38,56 @@ const Expenses = () => {
     //   .finally(() => {
     //     setLoading(false);
     //   });
-    async function getExpenses(){
-      await getExpense()
-      .then((res) => {
-          setExpenses(res);
-      })
-      .catch((err) => {
-      console.log("erroor login", err);
-      });
-    }
-    getExpenses()
+    
+    // async function getExpenses(){
+    //   await getExpense()
+    //   .then((res) => {
+    //       setExpenses(res);
+    //   })
+    //   .catch((err) => {
+    //   console.log("erroor login", err);
+    //   });
+    // }
+    // getExpenses()
+
+    callExpenses();
 
   },[]);
+
+  const callExpenses= () =>{
+      getExpense()
+        .then((res) => {
+            setExpenses(res);
+        })
+        .catch((err) => {
+        console.log("erroor login", err);
+        });
+      }
+
+
+  const handleUnsort = () => {
+    setExpenses([...unsortOrder]);
+    console.log(expenses);
+  }
+
+  const handleSort = (option) => {
+    let sortedItems = [...expenses]; 
+    
+    if (option === 'Title') {
+    sortedItems.sort((a, b) =>
+    sortOrder === 'Title'? b.description.localeCompare(a.description) : a.description.localeCompare(b.description)
+    );
+    } else if (option === 'amount') {
+    sortedItems.sort((a, b) =>
+    sortOrder === 'amount' ? b.amount - a.amount : a.amount - b.amount
+    );
+    }
+    // console.log(sortOrder);
+    
+    setExpenses(sortedItems); 
+    setSortOrder(option); 
+    };
+   
 
   //GET EXPENSES
   // const fetchAPI = async() => {
@@ -68,13 +113,19 @@ const Expenses = () => {
   // }
 
 
-  const removeExpense = async (id) => {
-    const responseDel = await axios.delete(`http://localhost:8080/expenses/${id}`);
+  const removeExpense = async () => {
+    const responseDel = await axios.delete(`http://localhost:8080/expenses/${deleteData?.id}`);
     await getExpense()
     .then((res) => {
       setExpenses(res);
+      setOpen(false);
     })
   };
+
+  function openDelete(data){
+    setOpen(true)
+    setDeleteData(data)
+  }
 
   const rows = expenses
     .filter((expense) => {
@@ -90,17 +141,17 @@ const Expenses = () => {
         return expense;
       }
     })
-    .map((expense, index) => (
+    .map((expense, index) => ( 
       <tr>
         <td>{expense.description}</td>
         <td>{expense.categoryName}</td>
         <td>₹{expense.amount}</td>
-        <td>{expense.expenseDate}</td>
+        <td>{new Date(expense.expenseDate).toLocaleDateString('en-GB')}</td>
         <td style={{ gap: 50 }}>
           <button
             type="button"
             class="btn btn-danger btn-sm deletebutton"
-            onClick={() => removeExpense(expense.id)}
+            onClick={() => openDelete(expense)}
           >
             Delete
           </button>
@@ -142,9 +193,9 @@ const Expenses = () => {
         <table class="table table-striped">
           <thead className="expense-heading" style={{ color: "white" }}>
             <tr>
-              <th>Title</th>
+              <th style={{cursor:"pointer"}} onClick={()=>{handleSort('Title')}} onDoubleClick={()=>{handleUnsort()}}>Title</th>
               <th>Category</th>
-              <th>Amount</th>
+              <th style={{cursor:"pointer"}} onClick={()=>{handleSort('amount')}}>Amount</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -152,6 +203,12 @@ const Expenses = () => {
           <tbody style={{ backgroundColor: "white" }}>{rows}</tbody>
         </table>
       </div>
+      <ConfirmBox
+      open={open}
+      closeDialog={() => setOpen(false)}
+      title={deleteData.description}
+      deleteFunction={removeExpense}
+      />
     </div>
   );
 };

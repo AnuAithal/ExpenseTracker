@@ -16,6 +16,22 @@ export const getExpense = async () => {
   } catch (err) {
     return Promise.reject(err);
   }
+};
 
-//   return await Promise.resolve(response.data);
+export const addExpense = async (data) => {
+  try {
+    const response = await apiHelper.post(`/expenses`,data);
+    return Promise.resolve(response.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const addRecurrExpense = async (data) => {
+  try {
+    const response = await apiHelper.post(`/expenses/reccuring`,data);
+    return Promise.resolve(response.data);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };

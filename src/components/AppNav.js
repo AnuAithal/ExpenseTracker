@@ -31,7 +31,7 @@ const AppNav = () => {
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" onClick={()=>doLogout()}>Log out</a></li>
+                    <li><a class="dropdown-item" style={{cursor:"pointer"}} onClick={()=>doLogout()}>Log out</a></li>
                 </ul>
             </div>
 

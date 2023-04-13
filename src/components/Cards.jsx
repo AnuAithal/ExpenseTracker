@@ -6,6 +6,7 @@ import Carddesign from "./Carddesign";
 // import './Card-style.css';
 import { Link } from "react-router-dom";
 import AddNewCategory from "./AddNewCategory";
+import Recurring from "./Recurring";
 
 
 
@@ -48,7 +49,9 @@ const Cards = () =>{
                         <Carddesign 
                             img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwauBENquxIHcsAvR5kYNuV8vLBxSpeE2Us_wVbQ5l0w&usqp=CAU&ec=48665698" 
                             title="Multiple expenses" 
-                            description="Here you can add Recurring Expenses" Add='view' 
+                            description="Here you can add Recurring Expenses" 
+                            Add={<Link to='/Recurring' Component={<Recurring/>} style={{backgroundImage: "linear-gradient(to left, rgba(0, 0, 0, 0.584), rgb(53, 139, 238)"}}>
+                                <button className='btn btn-primary submit'>Add</button></Link>}
                         />
                     </div>
                 </div>
