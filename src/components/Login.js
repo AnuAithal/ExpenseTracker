@@ -7,6 +7,7 @@ import {useNavigate } from 'react-router-dom';
 import { getExpense, getUserLogin } from "../services/UserService";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "./Loader";
 
   
 export const Login = () => {
@@ -27,9 +28,10 @@ export const Login = () => {
     },[])
  
     const handleSubmit = async () => {
+        setLoading(true);
         console.log("innnnn")
         await getUserLogin(loginData)
-        .then((res) => {
+        .then((res) => { 
         localStorage.setItem("token", res.accessToken);
         console.log(res.accessToken);
         toast("Login Successful");
@@ -39,9 +41,10 @@ export const Login = () => {
         console.log("erroor login", err);
         // handleToast();
         toast.error("Invalid User",{autoClose: 3000, theme:"dark"});
+        })
+        .finally(() => {
+            setLoading(false);
         });
-        
-    
 
     };
 
@@ -69,7 +72,8 @@ export const Login = () => {
       
 
     return(
-    <div className="auth-form-container">
+    <div>
+    {loading ? (<div className="auth-form-container">
         <header>
             <nav>
              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWmaOELs47PBFQYpgMv95rKwzz6njKGsK3Btqkpzb0W_y909kg8mPg07McDYiHXdQR600&usqp=CAU" alt="" width="150px" />
@@ -101,6 +105,7 @@ export const Login = () => {
         <button style={{bottom:"-110px" }}href="/" className="link-btn">Don't have an account? Register here</button>
         </Link>
         <ToastContainer />
+    </div>) : (<Loader />)}
     </div>
     )
 }

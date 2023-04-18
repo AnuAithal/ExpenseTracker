@@ -9,11 +9,13 @@ import AddNewCategory from "./components/AddNewCategory";
 import AppNav from "./components/AppNav";
 import Expenses from "./components/Expenses";
 import Recurring from "./components/Recurring";
+import Loader from "./components/Loader";
 // import AddNewCategory from "./components/AddNewCategory";
 
 function App() {
   return (
     <div className="App">
+
       
       {/* <AppNav/> */}
 
@@ -29,7 +31,6 @@ function App() {
           <Route path='/AddNewExpense' exact={true} element={<AddNewExpense/>}></Route>
           <Route path='/AddNewCategory' exact={true} element={<AddNewCategory/>}></Route>
           <Route path="/Recurring" exact={true} element={<Recurring/>}></Route>
-
 
           {/* <Route path='/categories' exact={true} component={Categories} ></Route> */}
         </Routes>

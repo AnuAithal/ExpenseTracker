@@ -14,6 +14,12 @@ const Expenses = () => {
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
   const [sortOrder, setSortOrder]=useState('');
+  const [data,setData] =useState([]);
+  const [filteredData,setFilteredData]=useState([]);
+  const [unFilter, setUnFilter] = useState([]);
+  const [selectedvalue,setSelectedValue] = useState('');
+  const [categories, setCategories] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const unsortOrder = [...expenses];
 
@@ -24,6 +30,17 @@ const Expenses = () => {
 
   // let token = localStorage.getItem('token')
   // console.log("tokkeennn",token);
+  // useEffect(()=> {
+  //   axios.get(`http://localhost:8080/expenses`)
+  //   .then(response => {
+  //   setData(response.data);
+  //   setFilteredData(response.data);
+  //   setUnFilter(response.data)
+  //   })
+  //   .catch(error => {
+  //   console.error('Error fetching data:' , error);
+  //   });
+  //   }, []);
 
 
   useEffect(() => {
@@ -38,31 +55,36 @@ const Expenses = () => {
     //   .finally(() => {
     //     setLoading(false);
     //   });
-    
-    // async function getExpenses(){
-    //   await getExpense()
-    //   .then((res) => {
-    //       setExpenses(res);
-    //   })
-    //   .catch((err) => {
-    //   console.log("erroor login", err);
-    //   });
-    // }
-    // getExpenses()
 
-    callExpenses();
+    
+    
+    async function getExpenses(){
+      await getExpense()
+      .then((res) => {
+          setExpenses(res);
+          setUnFilter(res);
+          setData(res);
+          setFilteredData(res);
+      })
+      .catch((err) => {
+      console.log("erroor login", err);
+      });
+    }
+    getExpenses()
+
+    // callExpenses();
 
   },[]);
 
-  const callExpenses= () =>{
-      getExpense()
-        .then((res) => {
-            setExpenses(res);
-        })
-        .catch((err) => {
-        console.log("erroor login", err);
-        });
-      }
+  // const callExpenses= () =>{
+  //     getExpense()
+  //       .then((res) => {
+  //           setExpenses(res);
+  //       })
+  //       .catch((err) => {
+  //       console.log("erroor login", err);
+  //       });
+  //     }
 
 
   const handleUnsort = () => {
@@ -88,6 +110,33 @@ const Expenses = () => {
     setSortOrder(option); 
     };
    
+    const fetchCatAPI = async() => {
+      const responseCat = await axios.get("http://localhost:8080/categories");
+      setCategories(responseCat.data); 
+      }
+      
+      useEffect( ()=> {
+      fetchCatAPI();
+      }, [categories.id])
+     
+     
+      const handleFilterChange = (event) => {
+        const value = event.target.value; 
+            setSelectedValue(value);
+      
+      if (value === " "){
+      const unfilter = data.filter(item => item.categoryName === " " );
+        setExpenses(unFilter);
+      }
+      
+      else {
+      const filtered = data.filter(item => item.categoryName === value); 
+        setExpenses(filtered); 
+      
+      }
+      console.log("FILTEREDDDDDD",expenses)
+      
+      };
 
   //GET EXPENSES
   // const fetchAPI = async() => {
@@ -169,6 +218,14 @@ const Expenses = () => {
   return (
     <div>
       <div class="container">
+      <div>
+      <select value={selectedvalue} onChange={handleFilterChange}>
+      <option value=" ">All</option>
+        {categories.map(item => (
+          <option key={item.id} value={item.name}>{item.name}</option>
+        ))}
+      </select>
+      </div>
         <div className="searchbar">
           <form class="form-inline my-2 my-lg-0">
             <input
