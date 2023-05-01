@@ -7,7 +7,7 @@ import AppNav from './AppNav';
 import Cards from './Cards';
 import axios from 'axios';
 import Select from 'react-select';
-import MultiselectDropDown from '../MultiselectDropDown';
+// import MultiselectDropDown from '../MultiselectDropDown';
 import { addExpense, getExpense, addRecurrExpense } from '../services/UserService';
 
 
@@ -41,7 +41,7 @@ function Recurring() {
       console.log("innnnn")
       await addRecurrExpense(formData)
       .then((res) => {
-      localStorage.setItem("token", res.accessToken);
+      // localStorage.setItem("token", res.accessToken);
       getExpense();
       navigate("/home")
   })

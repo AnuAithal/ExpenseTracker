@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Nav, NavItem, NavLink} from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import { getExpense } from "../services/UserService";
 
 const AppNav = () => {
 
@@ -17,9 +18,30 @@ const AppNav = () => {
         navigate("/")
     }
 
+    const [expenses, setExpenses] = useState([]);
+    const [name, setName] = useState("");
+
+useEffect(() => {
+    
+    async function getExpenses(){
+      await getExpense()
+      .then((res) => {
+          setExpenses(res);
+          setName(res[0].userName);
+         console.log("resssss",name)
+      })
+      .catch((err) => {
+      console.log("erroor ", err);
+      });
+    }
+    getExpenses()
+
+  },[]);
+  console.log("expneweeee1", expenses);
+
   return (
     <div>
-        <nav class="navbar bg-dark">
+        <nav class="navbar bg-dark" style={{height:"100px"}}>
 
             <img src="../expenseLogo.png" alt="Logo" width="50" height="50"/>
 
@@ -27,7 +49,7 @@ const AppNav = () => {
 
             <div class="dropdown-center" style={{marginLeft: "auto"}}>
                 <a class="btn btn-secondary dropdown-toggle" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    User
+                    {name}
                 </a>
 
                 <ul class="dropdown-menu">
@@ -53,9 +75,16 @@ const AppNav = () => {
                     Home
                 </NavLink>
                 </NavItem>
+
                 <NavItem style={{cursor: 'pointer'}} className="nav-item" onClick={()=> navigate("/Cards") } >
                 <NavLink className={activeTab == '2' ? 'active' : ''} onClick={()=> setActiveTab('2')} >
                     Add New
+                </NavLink>
+                </NavItem>
+
+                <NavItem style={{cursor: 'pointer'}} className="nav-item" onClick={()=> navigate("/barChart") } >
+                <NavLink className={activeTab == '3' ? 'active' : ''} onClick={()=> setActiveTab('3')} >
+                    Insights
                 </NavLink>
                 </NavItem>
             </Nav>

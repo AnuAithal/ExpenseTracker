@@ -7,7 +7,7 @@ import AppNav from './AppNav';
 import Cards from './Cards';
 import axios from 'axios';
 import Select from 'react-select';
-import MultiselectDropDown from '../MultiselectDropDown';
+// import MultiselectDropDown from '../MultiselectDropDown';
 import { addExpense, getExpense } from '../services/UserService';
 
 
@@ -40,7 +40,7 @@ function AddNewExpense() {
       console.log("innnnn")
       await addExpense(formData)
       .then((res) => {
-      localStorage.setItem("token", res.accessToken);
+      // localStorage.setItem("token", res.accessToken);
 
       
       getExpense();

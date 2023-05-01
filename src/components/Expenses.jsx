@@ -56,8 +56,6 @@ const Expenses = () => {
     //     setLoading(false);
     //   });
 
-    
-    
     async function getExpenses(){
       await getExpense()
       .then((res) => {
@@ -216,10 +214,11 @@ const Expenses = () => {
     ));
 
   return (
-    <div>
+    <div >
       <div class="container">
-      <div>
-      <select value={selectedvalue} onChange={handleFilterChange}>
+      <div class="dropdown" style={{float:"right", marginTop:"20px",marginLeft:"20px" ,paddingTop:"0px" }}>
+       Filter:
+      <select style={{borderRadius:"5px",height:"35px",gap:"100px"}} value={selectedvalue} onChange={handleFilterChange}>
       <option value=" ">All</option>
         {categories.map(item => (
           <option key={item.id} value={item.name}>{item.name}</option>
